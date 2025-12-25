@@ -1,0 +1,7 @@
+{
+  "name": "ConvoVerse",
+  "description": "An LLM-powered multi-agent social practice system designed to support introverted learners in developing social confidence through low-pressure simulations.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
