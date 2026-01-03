@@ -109,8 +109,8 @@ const Simulation: React.FC = () => {
       <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-brand-secondary/5 rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20"></div>
 
       {/* Header */}
-      <header className="relative z-20 flex-none bg-white/80 backdrop-blur-xl border-b border-slate-200/60 px-6 py-4 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-4">
+      <header className="relative z-20 flex-none bg-white/80 backdrop-blur-xl border-b border-slate-200/60 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between shadow-sm">
+        <div className="flex items-center gap-3 md:gap-4">
           <button
             onClick={() => navigate('/')}
             className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50 transition-all shadow-sm"
@@ -124,7 +124,7 @@ const Simulation: React.FC = () => {
                 Live
               </span>
             </h1>
-            <p className="text-xs font-medium text-slate-500 flex items-center gap-1">
+            <p className="text-[10px] md:text-xs font-medium text-slate-500 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
               {agents.length} Agent{agents.length !== 1 ? 's' : ''} Active
             </p>
@@ -141,8 +141,8 @@ const Simulation: React.FC = () => {
       </header>
 
       {/* Chat Area */}
-      <div className="flex-1 overflow-y-auto px-4 py-8 md:px-6 relative z-10 scroll-smooth">
-        <div className="max-w-3xl mx-auto space-y-8">
+      <div className="flex-1 overflow-y-auto px-4 py-6 md:px-6 relative z-10 scroll-smooth">
+        <div className="max-w-3xl mx-auto space-y-6 md:space-y-8">
           {messages.map((msg) => (
             <div
               key={msg.id}

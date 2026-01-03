@@ -52,7 +52,7 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
 
       {/* Navigation Bar */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100/50 supports-[backdrop-filter]:bg-white/60">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="max-w-5xl xl:max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => navigate('/')}>
             <div className="relative">
               <div className="absolute inset-0 bg-brand-primary blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
@@ -82,7 +82,7 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
+      <div className="max-w-5xl xl:max-w-7xl mx-auto px-6 py-8 md:py-10 relative z-10">
         {/* Welcome Banner */}
         <section className="mb-20 animate-in fade-in slide-in-from-top-4 duration-700">
           <div className="w-full relative overflow-hidden rounded-[2.5rem] shadow-2xl shadow-brand-primary/20 group">
@@ -99,7 +99,7 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
                   <i className="fas fa-fingerprint"></i>
                   Social Pulse: {profile.archetype}
                 </div>
-                <h1 className="text-4xl md:text-6xl font-black mb-6 leading-[1.1] text-white tracking-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-[1.1] text-white tracking-tight">
                   Master the art of <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-white">Human Connection</span>.
                 </h1>
                 <p className="text-slate-300 text-lg font-medium max-w-lg mb-0 leading-relaxed">
@@ -225,7 +225,7 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
 
         {/* Support Section */}
         <section className="mt-28 mb-10">
-          <div className="glass-card bg-gradient-to-r from-slate-900 to-[#2d2f45] p-12 rounded-[3rem] text-center relative overflow-hidden shadow-2xl shadow-slate-900/20">
+          <div className="glass-card bg-gradient-to-r from-slate-900 to-[#2d2f45] p-8 md:p-10 rounded-[2.5rem] text-center relative overflow-hidden shadow-2xl shadow-slate-900/20">
             <div className="absolute top-0 right-0 w-96 h-96 bg-brand-primary/20 rounded-full blur-[120px] -mr-32 -mt-32"></div>
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-secondary/20 rounded-full blur-[120px] -ml-32 -mb-32"></div>
 

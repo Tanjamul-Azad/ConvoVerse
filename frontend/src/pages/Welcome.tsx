@@ -6,7 +6,7 @@ const Welcome: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#fafafa]">
+    <div className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#fafafa] py-12 md:py-24">
       {/* Background Pattern - Dot Matrix */}
       <div className="absolute inset-0 z-0 opacity-[0.4]" style={{
         backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)',
@@ -25,25 +25,25 @@ const Welcome: React.FC = () => {
         <i className="fas fa-heart text-xl text-brand-secondary"></i>
       </div>
 
-      <div className="relative z-10 text-center px-6 max-w-6xl mx-auto w-full">
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto w-full">
         {/* Main Hero Content */}
         <div className="mb-12 inline-flex relative group cursor-pointer">
           <div className="absolute inset-0 bg-brand-primary blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full"></div>
-          <div className="relative w-24 h-24 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-[2rem] flex items-center justify-center shadow-2xl shadow-brand-primary/30 transform group-hover:scale-105 group-hover:-rotate-3 transition-all duration-300">
-            <i className="fas fa-comment-dots text-4xl text-white drop-shadow-md"></i>
+          <div className="relative w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-[2rem] flex items-center justify-center shadow-2xl shadow-brand-primary/30 transform group-hover:scale-105 group-hover:-rotate-3 transition-all duration-300">
+            <i className="fas fa-comment-dots text-3xl md:text-4xl text-white drop-shadow-md"></i>
           </div>
         </div>
 
-        <h1 className="text-6xl md:text-8xl font-black text-slate-900 tracking-tight mb-8 leading-[0.9]">
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 tracking-tight mb-6 md:mb-8 leading-[0.9]">
           Convo<span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">Verse</span>
-          <span className="text-brand-primary text-2xl align-top ml-2">●</span>
+          <span className="text-brand-primary text-xl md:text-2xl align-top ml-2">●</span>
         </h1>
 
-        <p className="text-xl md:text-2xl text-slate-500 font-medium mb-14 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg md:text-xl text-slate-500 font-medium mb-10 md:mb-14 max-w-2xl mx-auto leading-relaxed">
           The <span className="font-bold text-slate-800">psychologically safe space</span> to practice social intelligence through realistic, AI-driven simulations.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full max-w-md mx-auto mb-24">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5 w-full max-w-md mx-auto mb-16 md:mb-24">
           <button
             onClick={() => navigate('/onboarding')}
             className="group relative w-full sm:w-auto overflow-hidden rounded-2xl bg-slate-900 px-8 py-4 text-white hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 active:scale-[0.98]"
