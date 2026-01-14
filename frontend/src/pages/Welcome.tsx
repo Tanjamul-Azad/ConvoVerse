@@ -102,11 +102,14 @@ const Welcome: React.FC = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-0 right-0 text-center">
+      <div className="absolute bottom-6 left-0 right-0 text-center space-y-2 pb-4">
         <p className="text-[10px] uppercase font-black tracking-[0.3em] text-slate-300 flex items-center justify-center gap-3">
           <span className="w-8 h-px bg-slate-300"></span>
-          Neural Simulation Engine v2.0
+          Neural Simulation Engine
           <span className="w-8 h-px bg-slate-300"></span>
+        </p>
+        <p className="text-[9px] font-bold text-slate-300 hover:text-slate-400 transition-colors uppercase tracking-widest cursor-default">
+          Designed by Md. Tanzamul Azad
         </p>
       </div>
     </div>

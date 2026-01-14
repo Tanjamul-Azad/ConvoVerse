@@ -322,6 +322,15 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
               </span>
             </div>
           </div>
+
+          <div className="mt-12 flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500">
+            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+              ConvoVerse © 2026
+            </p>
+            <p className="text-[9px] font-medium text-slate-400 tracking-wider">
+              Design & Dev by <span className="font-black text-slate-500">Md. Tanzamul Azad</span>
+            </p>
+          </div>
         </section >
       </div >
     </div >

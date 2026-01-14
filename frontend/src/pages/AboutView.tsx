@@ -159,6 +159,18 @@ const AboutView: React.FC = () => {
                         </div>
                     </section>
                 </div>
+
+                {/* Creator Credit */}
+                <div className="border-t border-slate-200 mt-20 pt-16 text-center opacity-60 hover:opacity-100 transition-opacity duration-500">
+                    <div className="inline-flex flex-col items-center gap-3">
+                        <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 text-2xl mb-2 shadow-inner">
+                            <i className="fas fa-code"></i>
+                        </div>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Designed & Developed By</p>
+                        <h3 className="text-xl font-black text-slate-800 tracking-tight">Md. Tanzamul Azad</h3>
+                        <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">© 2026 ConvoVerse</p>
+                    </div>
+                </div>
             </div>
         </div>
     );
