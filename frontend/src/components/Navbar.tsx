@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
                         key={item.path}
                         to={item.path}
                         className={({ isActive }) => `
-                            relative px-6 py-3 rounded-full flex flex-col items-center gap-1 transition-all duration-300 group
+                            relative px-4 md:px-6 py-3 rounded-full flex flex-col items-center gap-1 transition-all duration-300 group
                             ${isActive
                                 ? 'text-brand-primary bg-brand-primary/10 shadow-inner'
                                 : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}

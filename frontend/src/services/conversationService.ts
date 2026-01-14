@@ -2,7 +2,7 @@
 import { Message, Agent, SimulationStage, SimulationResponse, Scenario, UserProfile } from "../types";
 
 const API_KEY = import.meta.env.VITE_CONVO_API_KEY;
-const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
 if (!API_KEY) {
     console.warn("⚠️ VITE_CONVO_API_KEY is missing in .env.local. Conversations will fail until a valid key is provided.");

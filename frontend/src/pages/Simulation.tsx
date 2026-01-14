@@ -338,7 +338,7 @@ const Simulation: React.FC = () => {
         {/* Main Chat Area */}
         <main className="flex-1 flex flex-col h-full relative z-10 bg-white/30">
           {/* Header */}
-          <header className="flex-none px-8 py-5 flex items-center justify-between">
+          <header className="flex-none px-4 md:px-8 py-3 md:py-5 flex items-center justify-between">
             <div className="flex items-center gap-4">
               {/* EXIT / HOME BUTTON (Cross Button) */}
               <button
@@ -349,12 +349,12 @@ const Simulation: React.FC = () => {
                 <i className="fas fa-times text-sm group-hover:scale-110 transition-transform"></i>
               </button>
 
-              <div>
-                <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-3">
-                  {scenario?.title || 'Free Practice'}
-                  <span className="px-2.5 py-0.5 rounded-full bg-red-500/10 text-red-500 text-[10px] uppercase font-black tracking-widest border border-red-500/20 flex items-center gap-1.5">
+              <div className="flex-1 min-w-0 mr-2">
+                <h1 className="text-lg md:text-xl font-black text-slate-800 tracking-tight flex items-center gap-2 md:gap-3 min-w-0">
+                  <span className="truncate">{scenario?.title || 'Free Practice'}</span>
+                  <span className="flex-none px-2.5 py-0.5 rounded-full bg-red-500/10 text-red-500 text-[10px] uppercase font-black tracking-widest border border-red-500/20 flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                    {isObserverMode ? 'Observing' : 'Live'}
+                    <span className="hidden md:inline">{isObserverMode ? 'Observing' : 'Live'}</span>
                   </span>
                 </h1>
               </div>
@@ -416,7 +416,7 @@ const Simulation: React.FC = () => {
                   className={`flex items-end gap-4 ${msg.isUser ? 'flex-row-reverse' : 'flex-row'} group animate-in slide-in-from-bottom-4 duration-500`}
                 >
                   <div className="flex flex-col items-center gap-1.5">
-                    <div className={`flex-none w-11 h-11 rounded-[1.2rem] flex items-center justify-center shadow-lg overflow-hidden border-2 transition-transform hover:scale-110 duration-300 ${msg.isUser ? 'border-brand-primary' : 'border-white'}`}>
+                    <div className={`flex-none w-9 h-9 md:w-11 md:h-11 rounded-[1.2rem] flex items-center justify-center shadow-lg overflow-hidden border-2 transition-transform hover:scale-110 duration-300 ${msg.isUser ? 'border-brand-primary' : 'border-white'}`}>
                       {msg.isUser ? (
                         <div className="w-full h-full bg-slate-900 text-white flex items-center justify-center text-[10px] font-black">
                           YOU
@@ -433,7 +433,7 @@ const Simulation: React.FC = () => {
 
                   <div className={`max-w-[75%] relative`}>
                     {/* Message Bubble */}
-                    <div className={`px-6 py-4 text-[15px] leading-relaxed shadow-md transition-all ${msg.isUser
+                    <div className={`px-4 py-3 md:px-6 md:py-4 text-sm md:text-[15px] leading-relaxed shadow-md transition-all break-words ${msg.isUser
                       ? 'bg-slate-900 text-white rounded-[2rem] rounded-br-[4px] shadow-slate-900/20'
                       : 'bg-white text-slate-700 border border-transparent hover:border-slate-200 rounded-[2rem] rounded-bl-[4px] shadow-sm'
                       }`}>
@@ -471,12 +471,12 @@ const Simulation: React.FC = () => {
           </div>
 
           {/* Rich Input Area (Figma-Style) */}
-          <div className="flex-none px-8 pb-8 pt-4 relative z-20">
+          <div className="flex-none px-4 md:px-8 pb-4 md:pb-8 pt-2 md:pt-4 relative z-20">
             <div className="max-w-4xl mx-auto relative group">
 
               {/* Social Scaffolding (Suggested Chips) */}
               {!isObserverMode && !isPaused && suggestedPrompts.length > 0 && (
-                <div className="flex gap-2 mb-4 overflow-x-auto pb-1 scrollbar-none transform transition-all duration-300">
+                <div className="flex gap-2 mb-4 overflow-x-auto pb-1 no-scrollbar md:scrollbar-none transform transition-all duration-300 mask-linear-fade">
                   {suggestedPrompts.map((prompt, idx) => (
                     <button
                       key={idx}
@@ -510,21 +510,21 @@ const Simulation: React.FC = () => {
                   </div>
                 )}
 
-                <div className="flex items-center p-2 pl-4">
+                <div className="flex items-center p-2 pl-3 md:pl-4">
                   {/* Rich Tools Left */}
-                  <div className="flex items-center gap-1 pr-3 border-r border-slate-100 mr-3">
+                  <div className="flex items-center gap-1 pr-2 md:pr-3 border-r border-slate-100 mr-2 md:mr-3">
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="w-9 h-9 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-brand-primary transition-all flex items-center justify-center"
+                      className="w-8 h-8 md:w-9 md:h-9 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-brand-primary transition-all flex items-center justify-center"
                     >
-                      <i className="fas fa-paperclip"></i>
+                      <i className="fas fa-paperclip text-xs md:text-sm"></i>
                     </button>
                     <input type="file" ref={fileInputRef} className="hidden" onChange={handleFileSelect} />
 
                     <div className="relative">
                       <button
                         onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                        className="w-9 h-9 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-amber-500 transition-all flex items-center justify-center"
+                        className="hidden md:flex w-9 h-9 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-amber-500 transition-all items-center justify-center"
                       >
                         <i className="far fa-smile"></i>
                       </button>
@@ -549,8 +549,8 @@ const Simulation: React.FC = () => {
                     value={isObserverMode ? "Observer Mode: Watching agents..." : input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                    placeholder={isPaused ? "Session is paused..." : "Type your message..."}
-                    className="flex-1 bg-transparent border-none focus:ring-0 py-4 text-slate-700 placeholder:text-slate-400 font-medium outline-none text-[15px]"
+                    placeholder={isPaused ? "Paused..." : "Type message..."}
+                    className="flex-1 min-w-0 bg-transparent border-none focus:ring-0 py-3 md:py-4 text-slate-700 placeholder:text-slate-400 font-medium outline-none text-sm md:text-[15px]"
                     disabled={isProcessing || isPaused || isObserverMode}
                   />
 
@@ -558,17 +558,17 @@ const Simulation: React.FC = () => {
                   <div className="flex items-center gap-2 pl-2">
                     <button
                       onClick={toggleRecording}
-                      className={`w-10 h-10 rounded-xl transition-all flex items-center justify-center ${isRecording ? 'bg-red-50 text-red-500 animate-pulse border border-red-200' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-700'}`}
+                      className={`w-9 h-9 md:w-10 md:h-10 rounded-xl transition-all flex items-center justify-center ${isRecording ? 'bg-red-50 text-red-500 animate-pulse border border-red-200' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-700'}`}
                     >
-                      <i className={`fas fa-microphone${isRecording ? '-alt' : ''}`}></i>
+                      <i className={`fas fa-microphone${isRecording ? '-alt' : ''} text-xs md:text-sm`}></i>
                     </button>
 
                     <button
                       onClick={() => handleSend()}
                       disabled={(!input.trim() && !mediaAttachment) || isProcessing || isPaused || isObserverMode}
-                      className="h-10 px-6 rounded-xl bg-slate-900 text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-slate-900/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:shadow-none disabled:scale-100 flex items-center gap-2"
+                      className="h-9 md:h-10 px-4 md:px-6 rounded-xl bg-slate-900 text-white font-bold text-[10px] md:text-xs uppercase tracking-widest shadow-lg shadow-slate-900/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:shadow-none disabled:scale-100 flex items-center gap-2"
                     >
-                      <span>Send</span>
+                      <span className="hidden md:inline">Send</span>
                       <i className="fas fa-paper-plane"></i>
                     </button>
                   </div>

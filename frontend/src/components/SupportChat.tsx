@@ -60,7 +60,7 @@ const SupportChat: React.FC<SupportChatProps> = ({ profile }) => {
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end">
+    <div className="fixed bottom-24 md:bottom-8 right-8 z-50 flex flex-col items-end">
       {isOpen && (
         <div className="mb-6 w-80 md:w-[380px] h-[520px] glass-card flex flex-col overflow-hidden animate-in slide-in-from-bottom-4 fade-in duration-500 origin-bottom-right border-none shadow-2xl">
           <div className="p-6 bg-slate-900 text-white flex justify-between items-center">

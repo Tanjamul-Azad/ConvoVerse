@@ -65,7 +65,7 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
 
 
           <div className="flex items-center gap-4">
-            <Link to="/about" className="text-sm font-bold text-slate-500 hover:text-brand-primary transition-colors mr-4">
+            <Link to="/about" className="hidden md:block text-sm font-bold text-slate-500 hover:text-brand-primary transition-colors mr-4">
               How it Works
             </Link>
             <Link to="/create" className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10 active:scale-95 group">
@@ -93,16 +93,16 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
             {/* Pattern Overlay */}
             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
 
-            <div className="relative z-10 p-12 md:p-16 flex flex-col md:flex-row justify-between items-end gap-10">
+            <div className="relative z-10 p-6 md:p-12 lg:p-16 flex flex-col md:flex-row justify-between items-end gap-10">
               <div className="max-w-2xl">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full text-[11px] font-black uppercase tracking-widest mb-6 border border-white/20 text-brand-accent shadow-sm">
                   <i className="fas fa-fingerprint"></i>
                   Social Pulse: {profile.archetype}
                 </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-[1.1] text-white tracking-tight">
+                <h1 className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-[1.1] text-white tracking-tight">
                   Master the art of <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-white">Human Connection</span>.
                 </h1>
-                <p className="text-slate-300 text-lg font-medium max-w-lg mb-0 leading-relaxed">
+                <p className="text-slate-300 text-base md:text-lg font-medium max-w-lg mb-0 leading-relaxed">
                   Your active goal is <strong className="text-white border-b border-brand-accent/30 mx-1">{profile.socialGoal}</strong>.
                   Every mission is mathematically tuned to challenge your social comfort zone.
                 </p>
@@ -208,7 +208,7 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
               <div
                 key={scenario.id}
                 onClick={() => handleStartScenario(scenario)}
-                className="group relative bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2 cursor-pointer border border-slate-100 overflow-hidden"
+                className="group relative bg-white p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2 cursor-pointer border border-slate-100 overflow-hidden"
                 style={{ animationDelay: `${idx * 100}ms` }}
               >
                 {/* Hover Gradient Overlay */}
@@ -291,7 +291,7 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
 
         {/* Support Section */}
         <section className="mt-28 mb-10">
-          <div className="glass-card bg-gradient-to-r from-slate-900 to-[#2d2f45] p-8 md:p-10 rounded-[2.5rem] text-center relative overflow-hidden shadow-2xl shadow-slate-900/20">
+          <div className="glass-card bg-gradient-to-r from-slate-900 to-[#2d2f45] p-6 md:p-10 rounded-[2.5rem] text-center relative overflow-hidden shadow-2xl shadow-slate-900/20">
             <div className="absolute top-0 right-0 w-96 h-96 bg-brand-primary/20 rounded-full blur-[120px] -mr-32 -mt-32"></div>
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-secondary/20 rounded-full blur-[120px] -ml-32 -mb-32"></div>
 

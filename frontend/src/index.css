@@ -56,6 +56,11 @@
   .animate-float {
     animation: float 10s ease-in-out infinite;
   }
+
+  .mask-linear-fade {
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  }
 }
 
 @keyframes float {
