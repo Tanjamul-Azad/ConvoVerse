@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { generateAgentResponses } from '../services/conversationService';
-import { UserProfile, SimulationStage } from '../types';
+import { generateCoachResponse } from '../services/conversationService';
+import { UserProfile } from '../types';
 
 interface SupportChatProps {
   profile: UserProfile;
@@ -21,7 +21,7 @@ const SupportChat: React.FC<SupportChatProps> = ({ profile }) => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [isOpen, messages]);
+  }, [isOpen, messages, isLoading]);
 
   const toggleChat = () => setIsOpen(!isOpen);
 
@@ -34,20 +34,12 @@ const SupportChat: React.FC<SupportChatProps> = ({ profile }) => {
     setIsLoading(true);
 
     try {
-      // Mocking the coach chat using the same generic service but with a "Coach" identity
-      // In a real scenario, we'd have a specific endpoint or prompt for the coach.
-      const result = await generateAgentResponses(
-        SimulationStage.REFLECTION, // Using reflection stage as a proxy for coaching context
-        [{ id: 'coach', name: 'Social Coach', role: 'facilitator', personality: 'Empathetic and expert social mentor.', avatarUrl: '', color: '' }],
-        messages.map((m, i) => ({ id: i.toString(), senderId: m.isUser ? 'user' : 'coach', senderName: m.isUser ? 'You' : 'Coach', text: m.text, timestamp: Date.now(), isUser: m.isUser })),
-        "Social Mentorship",
-        undefined,
-        profile
-      );
+      // Real AI Coach Response
+      const responseText = await generateCoachResponse(profile, [...messages, userMsg]);
 
-      setMessages(prev => [...prev, { text: result.responses[0]?.text || "I'm here to support you.", isUser: false }]);
+      setMessages(prev => [...prev, { text: responseText, isUser: false }]);
     } catch (error) {
-      setMessages(prev => [...prev, { text: "Connection trouble. I'm still rooting for you!", isUser: false }]);
+      setMessages(prev => [...prev, { text: "I'm having trouble connecting to my thought process. Please try again.", isUser: false }]);
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +54,7 @@ const SupportChat: React.FC<SupportChatProps> = ({ profile }) => {
     recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
       setInput(transcript);
-      handleSend(transcript);
+      // Optional: Auto-send on voice end
     };
     recognition.start();
   };

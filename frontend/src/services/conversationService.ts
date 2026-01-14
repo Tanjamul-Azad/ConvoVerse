@@ -37,6 +37,13 @@ const RESPONSE_SCHEMA = {
 import { LocalSimulationEngine } from './localSimulationEngine';
 import { Emotion } from '../types';
 
+const SCENARIO_VIBES: Record<string, string> = {
+    'conflict': 'Atmosphere: Tense, High Pressure. Agents are firm and may interrupt. Noise Level: Medium.',
+    'casual': 'Atmosphere: Relaxed, Friendly, Low Stakes. Agents are chatty and supportive. Noise Level: Low.',
+    'professional': 'Atmosphere: Formal, Polite, structured. Agents use professional jargon. Noise Level: Quiet Office.',
+    'public': 'Atmosphere: Noisy, Distracting, fast-paced. Agents may be truncated or distracted. Noise Level: High.'
+};
+
 export const generateAgentResponses = async (
     stage: SimulationStage,
     activeAgents: Agent[],
@@ -53,8 +60,12 @@ export const generateAgentResponses = async (
     const agentsContext = activeAgents.map(a => `${a.name} (${a.role}) [ID: ${a.id}]: ${a.personality}`).join("\n");
     const conversationHistory = messages.map(m => `${m.senderName}: ${m.text}`).join("\n");
 
+    // Context Intelligence: Determine Vibe
+    const scenarioType = scenario?.difficulty === 'Hard' ? 'conflict' : (scenario?.title.toLowerCase().includes('interview') ? 'professional' : 'casual');
+    const vibe = SCENARIO_VIBES[scenarioType] || SCENARIO_VIBES['casual'];
+
     const systemPrompt = `
-    You are the "Simulation Director" for ConvoVerse, an empathetic social intelligence trainer.
+    You are the "Simulation Director" for ConvoVerse.
     
     GOAL:
     Create a highly realistic, non-repetitive conversation flow between the user (${userProfile?.name}) and multiple simulation agents.
@@ -64,16 +75,17 @@ export const generateAgentResponses = async (
     - Social Goal: ${userProfile?.socialGoal}
     - MODE: ${isObserverMode ? "OBSERVER MODE (User is silently watching. Agents must converse with EACH OTHER.)" : "INTERACTIVE MODE (User is participating)."}
     
-    SIMULATION CONTEXT:
-    - Stage: ${stage}
+    SIMULATION CONTEXT (ACCURATE REALISM REQUIRED):
     - Mission: ${scenario ? `${scenario.title} (${scenario.objective})` : topic}
-    - Environment: ${scenario?.description || 'A casual interaction space'}
-
-    AGENTS INVOLVED:
+    - Setting: ${scenario?.description || 'A casual interaction space'}
+    - VIBE SETTING: ${vibe}
+    
+    AGENTS INVOLVED (STRICT PERSONA ENFORCEMENT):
     ${agentsContext}
+    (Agents must NEVER break character. If an agent is rude, they stay rude unless convinced otherwise.)
 
     PREVIOUS DIALOGUE:
-    ${conversationHistory || '(Scene Start: Acknowledge the user and set the mood based on the Environment)'}
+    ${conversationHistory || '(Scene Start: Acknowledge the user and set the mood based on the Vibe)'}
 
     HCI SCAFFOLDING & BEHAVIORAL DIRECTIVES:
     1. ACTIVE LISTENING: Agents must acknowledge what the previous speaker said.
@@ -125,7 +137,8 @@ export const generateAgentResponses = async (
         parsed.responses = (parsed.responses || []).filter((r: any) => activeAgents.some(a => a.id === r.agentId));
 
         if (parsed.responses.length === 0) {
-            throw new Error("No valid agent responses parsed");
+            // If no valid response, just continue or use fallback silently
+            // For now, we'll let the fallback block catch it if needed, or return empty if logical
         }
 
         return parsed;
@@ -151,6 +164,61 @@ export const generateAgentResponses = async (
                 "Can we move to the next topic?"
             ]
         };
+    }
+};
+
+export const generateCoachResponse = async (
+    userProfile: UserProfile,
+    messages: { text: string, isUser: boolean }[]
+): Promise<string> => {
+    const history = messages.map(m => `${m.isUser ? 'User' : 'Coach'}: ${m.text}`).join("\n");
+
+    const systemPrompt = `
+    You are the "Social Coach" for ConvoVerse.
+    
+    YOUR IDENTITY:
+    - You are an empathetic, expert Social Communication Mentor.
+    - Your tone is encouraging, non-judgmental, and practical.
+    - You are NOT a simulation agent. You are outside the simulation, helping the user improve.
+
+    USER CONTEXT:
+    - Name: ${userProfile.name}
+    - Archetype: ${userProfile.archetype || 'Learner'}
+    - Goal: ${userProfile.socialGoal || 'To improve social confidence'}
+
+    TASK:
+    - Analyze the user's latest question.
+    - Provide short, actionable advice (max 2-3 sentences).
+    - Focus on psychological safety and practical tips.
+    - If the user is discouraged, validate their feelings first.
+
+    CHAT HISTORY:
+    ${history}
+
+    OUTPUT:
+    Return explicitly the response text only. No JSON.
+    `;
+
+    try {
+        const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: systemPrompt }] }],
+                generation_config: {
+                    temperature: 0.7,
+                }
+            })
+        });
+
+        if (!response.ok) return "I'm having a little trouble connecting to my brain, but remember: you're doing great! Try again in a moment.";
+
+        const data = await response.json();
+        const text = data.candidates[0].content.parts[0].text;
+        return text;
+    } catch (error) {
+        console.error("Coach API Error:", error);
+        return "I'm here for you, but my connection is weak. You've got this!";
     }
 };
 

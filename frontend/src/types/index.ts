@@ -42,6 +42,7 @@ export interface Scenario {
   id: string;
   title: string;
   category: 'Academic' | 'Social' | 'Professional';
+  difficulty?: 'Easy' | 'Medium' | 'Hard'; // Added for Vibe Settings
   description: string;
   objective: string;
   stage: SimulationStage;
