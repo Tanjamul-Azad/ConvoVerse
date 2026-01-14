@@ -9,6 +9,9 @@ const Navbar: React.FC = () => {
         return null;
     }
 
+    // Hide Navbar on Simulation page for immersive mobile experience
+    if (location.pathname === '/simulate') return null;
+
     const navItems = [
         { path: '/', label: 'Practice', icon: 'fas fa-brain' },
         { path: '/journey', label: 'Journey', icon: 'fas fa-map-marked-alt' },

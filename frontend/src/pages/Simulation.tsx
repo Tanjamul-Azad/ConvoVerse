@@ -28,6 +28,7 @@ const Simulation: React.FC = () => {
   // Safe Mode / HCI States
   const [isPaused, setIsPaused] = useState(false);
   const [showSafeMenu, setShowSafeMenu] = useState(false);
+  const [showParticipants, setShowParticipants] = useState(false);
   const [microAffirmation, setMicroAffirmation] = useState<string | null>(null);
 
   // New HCI Features
@@ -212,21 +213,21 @@ const Simulation: React.FC = () => {
   };
 
   return (
-    <div className={`flex items-center justify-center min-h-screen bg-[#f8f9fc] relative overflow-hidden transition-colors duration-700 ${isPaused ? 'grayscale-[0.5] bg-slate-100' : ''} p-4 sm:p-6 lg:p-8`}>
+    <div className={`flex items-center justify-center min-h-screen bg-[#f8f9fc] relative overflow-hidden transition-colors duration-700 ${isPaused ? 'grayscale-[0.5] bg-slate-100' : ''} p-0 lg:p-8`}>
       {/* Background Pattern */}
       <div className="absolute inset-0 z-0 opacity-[0.4] pointer-events-none" style={{
         backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)',
         backgroundSize: '32px 32px'
       }}></div>
 
-      {/* Decorative Gradients */}
-      <div className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-brand-primary/5 rounded-full blur-[120px] pointer-events-none -mr-40 -mt-40 animate-pulse" style={{ animationDuration: '8s' }}></div>
-      <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-brand-secondary/5 rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20 animate-pulse" style={{ animationDuration: '10s' }}></div>
+      {/* Decorative Gradients (Desktop Only) */}
+      <div className="hidden lg:block absolute top-0 right-0 w-[60vw] h-[60vw] bg-brand-primary/5 rounded-full blur-[120px] pointer-events-none -mr-40 -mt-40 animate-pulse" style={{ animationDuration: '8s' }}></div>
+      <div className="hidden lg:block absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-brand-secondary/5 rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20 animate-pulse" style={{ animationDuration: '10s' }}></div>
 
       {/* Safe Mode Overlay */}
       {isPaused && (
-        <div className="absolute inset-0 z-50 bg-white/60 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300 rounded-[2rem]">
-          <div className="glass-card p-8 max-w-sm text-center shadow-2xl scale-110">
+        <div className="absolute inset-0 z-50 bg-white/60 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300 lg:rounded-[2rem]">
+          <div className="glass-card p-8 max-w-sm text-center shadow-2xl scale-110 mx-4">
             <div className="w-16 h-16 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
               <i className="fas fa-pause"></i>
             </div>
@@ -242,8 +243,46 @@ const Simulation: React.FC = () => {
         </div>
       )}
 
+      {/* Mobile Participants Drawer */}
+      {showParticipants && (
+        <div className="absolute inset-0 z-40 bg-white/90 backdrop-blur-xl animate-in slide-in-from-right duration-300 lg:hidden flex flex-col">
+          <div className="flex items-center justify-between p-6 border-b border-slate-100">
+            <h2 className="text-lg font-black text-slate-800">Active Participants</h2>
+            <button onClick={() => setShowParticipants(false)} className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+          <div className="p-6 space-y-4 overflow-y-auto">
+            {/* User */}
+            {!isObserverMode && (
+              <div className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-primary to-blue-500 flex items-center justify-center text-white font-bold shadow-md">
+                  YOU
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-800">You</h3>
+                  <p className="text-[10px] font-bold text-brand-primary uppercase tracking-wider">Active Learner</p>
+                </div>
+              </div>
+            )}
+            {agents.map(agent => (
+              <div key={agent.id} className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                <div className="relative">
+                  <img src={agent.avatarUrl} alt={agent.name} className="w-12 h-12 rounded-xl bg-slate-50" />
+                  <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></div>
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-800">{agent.name}</h3>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{agent.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Container to create the "More Inside" margin effect */}
-      <div className="flex-1 flex max-w-[1400px] w-full h-[88vh] mx-auto bg-white/50 backdrop-blur-sm rounded-[2.5rem] shadow-2xl border border-white/60 overflow-hidden relative z-10">
+      <div className="flex-1 flex max-w-[1400px] w-full h-full lg:h-[88vh] mx-auto bg-white/50 backdrop-blur-sm shadow-none lg:shadow-2xl border-0 lg:border border-white/60 overflow-hidden relative z-10 lg:rounded-[2.5rem]">
 
         {/* Participants Sidebar (Desktop) */}
         <aside className="hidden lg:flex w-72 flex-col bg-white/40 backdrop-blur-md border-r border-slate-200/50 z-20 p-6">
@@ -322,6 +361,14 @@ const Simulation: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3">
+              {/* Mobile Only: Show Participants Toggle */}
+              <button
+                onClick={() => setShowParticipants(true)}
+                className="lg:hidden w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-blue-500 hover:border-blue-200 transition-all flex items-center justify-center shadow-sm"
+              >
+                <i className="fas fa-users"></i>
+              </button>
+
               <div className="relative">
                 <button
                   onClick={() => setShowSafeMenu(!showSafeMenu)}
