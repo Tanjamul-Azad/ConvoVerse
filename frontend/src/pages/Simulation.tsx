@@ -29,7 +29,6 @@ const Simulation: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [showSafeMenu, setShowSafeMenu] = useState(false);
   const [microAffirmation, setMicroAffirmation] = useState<string | null>(null);
-  const [showParticipants, setShowParticipants] = useState(false);
 
   // New HCI Features
   const [isObserverMode, setIsObserverMode] = useState(false);
@@ -131,7 +130,6 @@ const Simulation: React.FC = () => {
 
     try {
       // Pass isObserverMode to service
-      // Note: We need to cast or ignore TS if the service signature update isn't picked up yet
       // @ts-ignore 
       const responseData = await generateAgentResponses(stage, agents, newMessages, input, scenario, undefined, isObserverMode);
 
@@ -395,6 +393,10 @@ const Simulation: React.FC = () => {
                       {msg.text}
                     </div>
 
+                    {/* Name & Time */}
+                    <span className={`absolute -bottom-6 text-[10px] font-bold text-slate-300 uppercase tracking-widest ${msg.isUser ? 'right-2' : 'left-2'} opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0`}>
+                      {msg.senderName} • {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -410,6 +412,13 @@ const Simulation: React.FC = () => {
                 </div>
               )}
 
+              {microAffirmation && (
+                <div className="flex justify-center py-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                  <span className="px-4 py-2 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 text-brand-primary text-xs font-bold rounded-full border border-brand-primary/10 flex items-center gap-2 shadow-lg shadow-brand-primary/5 backdrop-blur-sm">
+                    <i className="fas fa-heart text-[10px] animate-pulse"></i> {microAffirmation}
+                  </span>
+                </div>
+              )}
               <div ref={messagesEndRef} />
             </div>
           </div>
