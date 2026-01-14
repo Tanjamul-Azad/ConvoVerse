@@ -8,8 +8,10 @@ import Simulation from './pages/Simulation';
 import Reflection from './pages/Reflection';
 import ProfileView from './pages/ProfileView';
 import CustomCreator from './pages/CustomCreator';
+import Journey from './pages/Journey';
 import AboutView from './pages/AboutView';
 import SupportChat from './components/SupportChat';
+import Navbar from './components/Navbar';
 import { UserProfile } from './types';
 
 const App: React.FC = () => {
@@ -59,13 +61,19 @@ const App: React.FC = () => {
             element={profile ? <Reflection profile={profile} /> : <Navigate to="/" />}
           />
           <Route
+            path="/journey"
+            element={profile ? <Journey profile={profile} /> : <Navigate to="/" />}
+          />
+          <Route
             path="/about"
             element={<AboutView />}
           />
         </Routes>
+        {profile && <Navbar />}
         {profile && <SupportChat profile={profile} />}
       </div>
     </Router>
+
   );
 };
 

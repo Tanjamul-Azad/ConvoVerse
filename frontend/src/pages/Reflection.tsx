@@ -1,123 +1,169 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Message, UserProfile } from '../types';
-import { getReflectionQuestions } from '../services/conversationService';
-import { REFLECTION_QUESTIONS } from '../utils/constants';
 
 interface ReflectionProps {
   profile: UserProfile;
 }
 
+const EMOTION_SCALE = [
+  { value: 1, emoji: '😟', label: 'Anxious' },
+  { value: 2, emoji: '😐', label: 'Neutral' },
+  { value: 3, emoji: '🙂', label: 'Good' },
+  { value: 4, emoji: '😊', label: 'Confident' },
+];
+
+const REFLECTION_PROMPTS = [
+  "What felt difficult during this session?",
+  "What went better than expected?",
+  "Would you try used strategies in real life?"
+];
+
 const Reflection: React.FC<ReflectionProps> = ({ profile }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const messages = (location.state?.messages as Message[]) || [];
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _messages = (location.state?.messages as Message[]) || []; // Keep for potential analysis
 
-  const [questions, setQuestions] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [answers, setAnswers] = useState<string[]>([]);
-  const [submitted, setSubmitted] = useState(false);
+  const [step, setStep] = useState<'emotion' | 'questions' | 'done'>('emotion');
+  const [sentiment, setSentiment] = useState<number | null>(null);
+  const [answers, setAnswers] = useState<string[]>(new Array(REFLECTION_PROMPTS.length).fill(''));
+  const [isSynthesizing, setIsSynthesizing] = useState(false);
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const q = await getReflectionQuestions(messages);
-        setQuestions(q);
-        setAnswers(new Array(q.length).fill(''));
-      } catch (error) {
-        console.error("Failed to fetch reflection questions:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchQuestions();
-  }, [messages]);
-
-  const handleFinish = () => {
-    setSubmitted(true);
+  // Auto-advance after sentiment selection
+  const handleSentimentSelect = (value: number) => {
+    setSentiment(value);
     setTimeout(() => {
-      navigate('/');
-    }, 2500);
+      setStep('questions');
+    }, 400);
   };
 
-  if (loading) {
+  const handleFinish = () => {
+    setIsSynthesizing(true);
+    // Simulate saving reflection data
+    const reflectionData = {
+      date: new Date().toISOString(),
+      sentiment,
+      answers,
+      scenario: location.state?.scenario
+    };
+
+    const saved = localStorage.getItem('convoverse_reflections');
+    const existing = saved ? JSON.parse(saved) : [];
+    localStorage.setItem('convoverse_reflections', JSON.stringify([...existing, reflectionData]));
+
+    setTimeout(() => {
+      setIsSynthesizing(false);
+      setStep('done');
+      // Auto redirect after showing "Done" state for a moment
+      setTimeout(() => navigate('/journey'), 3000);
+    }, 2000);
+  };
+
+  if (step === 'done') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 overflow-hidden relative">
-        <div className="absolute inset-0 bg-brand-primary/5 animate-pulse"></div>
-        <div className="relative z-10 text-center">
-          <div className="w-12 h-12 border-2 border-slate-200 border-t-brand-primary rounded-full animate-spin mx-auto mb-6"></div>
-          <p className="text-slate-500 font-black uppercase tracking-widest text-xs">Synthesizing Insights...</p>
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6 overflow-hidden relative">
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-primary animate-shine" />
+
+        <div className="max-w-md w-full glass-card p-12 text-center animate-in zoom-in duration-500 border-none shadow-2xl relative z-10">
+          <div className="w-24 h-24 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner animate-in slide-in-from-bottom-4 duration-700">
+            <i className="fas fa-check text-4xl"></i>
+          </div>
+          <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Growth Captured</h2>
+          <p className="text-slate-500 leading-relaxed mb-8 font-medium">
+            Your insights have been added to your confidential journey log.
+          </p>
+
+          <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-8 text-left">
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
+              <i className="fas fa-bolt text-amber-400"></i>
+              Real-World Validation
+            </h4>
+            <p className="text-sm font-medium text-slate-700 italic">
+              "If this happens in real life, a small step could be: Smile + say one sentence."
+            </p>
+          </div>
+
+          <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400 font-bold uppercase tracking-widest animate-pulse">
+            Proceeding to Journey Map...
+          </div>
         </div>
       </div>
     );
   }
 
-  if (submitted) {
+  if (isSynthesizing) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6 overflow-hidden">
-        <div className="max-w-md w-full glass-card p-12 text-center animate-in zoom-in duration-500 border-none shadow-2xl">
-          <div className="w-20 h-20 bg-emerald-50 text-emerald-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-inner">
-            <i className="fas fa-check-circle text-4xl"></i>
-          </div>
-          <h2 className="text-2xl font-black text-slate-900 mb-4">Growth Locked In</h2>
-          <p className="text-slate-500 leading-relaxed mb-8 font-medium">
-            Your reflection has been synthesized. Every session builds a deeper understanding of your social self.
-          </p>
-          <div className="flex items-center justify-center gap-2 text-[10px] text-slate-300 font-black uppercase tracking-widest animate-pulse">
-            Returning to Command Center
-          </div>
-        </div>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 relative overflow-hidden">
+        <div className="w-16 h-16 border-4 border-slate-200 border-t-brand-primary rounded-full animate-spin mb-8"></div>
+        <h2 className="text-xl font-bold text-slate-800 animate-pulse">Synthesizing your insights...</h2>
       </div>
-    );
+    )
   }
 
   return (
-    <div className="min-h-screen bg-slate-50/50 py-20 px-6">
-      <header className="max-w-3xl mx-auto mb-16 text-center animate-in fade-in slide-in-from-top-4 duration-700">
-        <div className="flex justify-center mb-10">
-          <div className="relative">
-            <img src={AGENTS.dr_aris.avatarUrl} className="w-24 h-24 rounded-3xl border-4 border-white shadow-2xl" alt="Lead Facilitator" />
-            <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-brand-accent rounded-xl flex items-center justify-center text-white text-xs border-2 border-white">
-              <i className="fas fa-brain"></i>
-            </div>
-          </div>
-        </div>
-        <h1 className="text-3xl font-black text-slate-900 mb-3 tracking-tight">Reflective Analysis</h1>
-        <p className="text-slate-500 font-medium">Processing the nuances of your last interaction, {profile.name}.</p>
+    <div className="min-h-screen bg-slate-50/50 flex flex-col items-center justify-center py-10 px-6 relative">
+      {/* Background Ambience */}
+      <div className="absolute top-0 right-0 w-[50vh] h-[50vh] bg-brand-primary/5 rounded-full blur-[100px] pointer-events-none -mr-20 -mt-20"></div>
+      <div className="absolute bottom-0 left-0 w-[50vh] h-[50vh] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20"></div>
+
+      <header className="max-w-xl w-full text-center mb-10 relative z-10 animate-in fade-in slide-in-from-top-4 duration-700">
+        <h1 className="text-3xl font-black text-slate-900 mb-2 tracking-tight">Reflection Panel</h1>
+        <p className="text-slate-500 font-medium">Pause. Breath. How did that feel?</p>
       </header>
 
-      <div className="max-w-x-3xl mx-auto space-y-8">
-        <div className="max-w-3xl mx-auto space-y-12">
-          {questions.map((q, idx) => (
-            <div key={idx} className="glass-card p-10 animate-in slide-in-from-bottom-4 duration-500" style={{ animationDelay: `${idx * 150}ms` }}>
-              <div className="flex items-start gap-5 mb-8">
-                <span className="bg-brand-primary text-white w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-sm font-black shadow-lg shadow-brand-primary/20">{idx + 1}</span>
-                <h3 className="text-xl font-black text-slate-800 leading-tight pt-1">
-                  {q}
-                </h3>
-              </div>
-              <textarea
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-6 text-slate-700 focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/5 outline-none transition-all min-h-[160px] font-medium placeholder:text-slate-300"
-                placeholder="Unpack your experience here..."
-                value={answers[idx]}
-                onChange={(e) => {
-                  const newAnswers = [...answers];
-                  newAnswers[idx] = e.target.value;
-                  setAnswers(newAnswers);
-                }}
-              />
+      <div className="max-w-xl w-full relative z-10">
+        {step === 'emotion' && (
+          <div className="glass-card p-10 animate-in fade-in zoom-in duration-500">
+            <h3 className="text-lg font-bold text-slate-800 mb-8 text-center">Rate your comfort level</h3>
+            <div className="flex justify-between items-center gap-2">
+              {EMOTION_SCALE.map((item, idx) => (
+                <button
+                  key={item.value}
+                  onClick={() => handleSentimentSelect(item.value)}
+                  className="group flex flex-col items-center gap-3 p-4 rounded-2xl hover:bg-slate-50 transition-all hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
+                  style={{ animationDelay: `${idx * 100}ms` }}
+                >
+                  <span className="text-5xl filter grayscale group-hover:grayscale-0 transition-all transform group-hover:-translate-y-2 duration-300 drop-shadow-sm">{item.emoji}</span>
+                  <span className="text-xs font-bold text-slate-400 group-hover:text-brand-primary uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">{item.label}</span>
+                </button>
+              ))}
             </div>
-          ))}
-
-          <div className="flex justify-center pt-8">
-            <button
-              onClick={handleFinish}
-              className="btn-primary"
-            >
-              Commit to Registry
-            </button>
           </div>
-        </div>
+        )}
+
+        {step === 'questions' && (
+          <div className="space-y-6">
+            {REFLECTION_PROMPTS.map((prompt, idx) => (
+              <div
+                key={idx}
+                className="glass-card p-6 animate-in slide-in-from-bottom-8 duration-700 fill-mode-forwards opacity-0"
+                style={{ animationDelay: `${idx * 150}ms` }}
+              >
+                <h3 className="text-sm font-bold text-slate-700 mb-3">{prompt}</h3>
+                <textarea
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-700 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/10 outline-none transition-all min-h-[100px] text-sm font-medium resize-none"
+                  placeholder="Type a few words..."
+                  value={answers[idx]}
+                  onChange={(e) => {
+                    const newAnswers = [...answers];
+                    newAnswers[idx] = e.target.value;
+                    setAnswers(newAnswers);
+                  }}
+                />
+              </div>
+            ))}
+
+            <div className="flex justify-center pt-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500 fill-mode-forwards opacity-0">
+              <button
+                onClick={handleFinish}
+                className="btn-primary"
+              >
+                Complete Reflection
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -106,6 +106,25 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
                   Your active goal is <strong className="text-white border-b border-brand-accent/30 mx-1">{profile.socialGoal}</strong>.
                   Every mission is mathematically tuned to challenge your social comfort zone.
                 </p>
+
+                {/* Emotion Check-in (Optional) */}
+                <div className="mt-8 flex items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+                  <span className="text-slate-400 text-sm font-semibold uppercase tracking-wider">How do you feel?</span>
+                  <div className="flex gap-2">
+                    {['🙂', '😐', '😟'].map(emoji => (
+                      <button
+                        key={emoji}
+                        className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all hover:scale-110 active:scale-95 text-xl relative group"
+                        title="Check-in"
+                      >
+                        {emoji}
+                        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                          Log mood
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
 
               <div className="flex items-center gap-8 bg-white/5 backdrop-blur-md px-8 py-6 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors">
@@ -119,6 +138,30 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
                   <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Custom</span>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* User Journey Indicator */}
+        <section className="mb-24 max-w-4xl mx-auto px-6">
+          <div className="relative">
+            {/* Connecting Line */}
+            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-slate-200 to-transparent -z-10"></div>
+
+            <div className="flex justify-between items-center">
+              {[
+                { icon: 'fa-map', label: 'Choose Scenario', color: 'text-blue-500' },
+                { icon: 'fa-comments', label: 'Practice', color: 'text-indigo-500' },
+                { icon: 'fa-brain', label: 'Reflect', color: 'text-purple-500' },
+                { icon: 'fa-arrow-trend-up', label: 'Improve', color: 'text-emerald-500' }
+              ].map((step, idx) => (
+                <div key={idx} className="flex flex-col items-center gap-4 bg-[#fafafa] px-4 group cursor-default">
+                  <div className={`w-14 h-14 rounded-full bg-white border-4 border-white shadow-lg shadow-slate-200 flex items-center justify-center text-xl transition-transform group-hover:scale-110 ${step.color}`}>
+                    <i className={`fas ${step.icon}`}></i>
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-slate-600 transition-colors bg-[#fafafa] px-2">{step.label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -209,6 +252,15 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
                     {scenario.description}
                   </p>
 
+                  {/* Agent Visibility Hint */}
+                  <div className="mb-6 flex items-center gap-2 text-[10px] font-bold text-slate-400 bg-slate-50 self-start px-2 py-1 rounded-md border border-slate-100">
+                    <div className="flex -space-x-1">
+                      <div className="w-4 h-4 rounded-full bg-brand-primary/20 flex items-center justify-center text-[8px] text-brand-primary border border-white"><i className="fas fa-user"></i></div>
+                      <div className="w-4 h-4 rounded-full bg-brand-secondary/20 flex items-center justify-center text-[8px] text-brand-secondary border border-white"><i className="fas fa-robot"></i></div>
+                    </div>
+                    <span>Multi-Agent Simulation</span>
+                  </div>
+
                   <div className="pt-6 border-t border-slate-100 mt-auto flex items-center justify-between group-hover:border-slate-200 transition-colors">
                     <span className="text-[10px] text-brand-primary font-black uppercase tracking-[0.2em] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                       Initialize Mission
@@ -220,6 +272,20 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
                 </div>
               </div>
             ))}
+          </div>
+
+
+          {/* Reflection / Feedback Cue */}
+          <div className="mt-12 flex justify-center">
+            <div className="group flex items-center gap-4 px-6 py-4 bg-white rounded-2xl border border-slate-100 shadow-lg shadow-slate-200/50 hover:shadow-xl hover:shadow-brand-primary/10 transition-all hover:-translate-y-1">
+              <div className="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg animate-bounce-slow">
+                <span className="transform group-hover:scale-110 transition-transform">🧠</span>
+              </div>
+              <div>
+                <p className="text-sm font-bold text-slate-800">Private Feedback</p>
+                <p className="text-xs text-slate-500 font-medium">After each session, you receive private, constructive analysis.</p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -245,9 +311,20 @@ const Landing: React.FC<LandingProps> = ({ profile }) => {
               </button>
             </div>
           </div>
-        </section>
-      </div>
-    </div>
+
+
+          {/* Accessibility Signal */}
+          <div className="mt-16 text-center opacity-70 hover:opacity-100 transition-opacity duration-300">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-transparent hover:border-slate-200 hover:bg-white/50 transition-all">
+              <i className="fas fa-universal-access text-slate-400"></i>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                Designed for accessibility: low cognitive load • private • adjustable difficulty
+              </span>
+            </div>
+          </div>
+        </section >
+      </div >
+    </div >
   );
 };
 

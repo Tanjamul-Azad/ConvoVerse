@@ -43,7 +43,8 @@ export const generateAgentResponses = async (
     messages: Message[],
     topic: string,
     scenario?: Scenario,
-    userProfile?: UserProfile
+    userProfile?: UserProfile,
+    isObserverMode: boolean = false
 ): Promise<SimulationResponse> => {
     if (!activeAgents || activeAgents.length === 0) {
         return { responses: [], suggestedPrompts: [] };
@@ -61,6 +62,7 @@ export const generateAgentResponses = async (
     CURRENT STATE:
     - User Identity: ${userProfile?.name} (Style: ${userProfile?.archetype})
     - Social Goal: ${userProfile?.socialGoal}
+    - MODE: ${isObserverMode ? "OBSERVER MODE (User is silently watching. Agents must converse with EACH OTHER.)" : "INTERACTIVE MODE (User is participating)."}
     
     SIMULATION CONTEXT:
     - Stage: ${stage}
@@ -74,22 +76,22 @@ export const generateAgentResponses = async (
     ${conversationHistory || '(Scene Start: Acknowledge the user and set the mood based on the Environment)'}
 
     HCI SCAFFOLDING & BEHAVIORAL DIRECTIVES:
-    1. ACTIVE LISTENING: Agents must acknowledge what the user said before moving on. Use verbal nods like "That makes sense," or "I see what you mean."
-    2. OPEN-ENDED QUESTIONS: To keep the user (${userProfile?.name}) engaged, agents should occasionally ask open-ended questions that align with the mission objective.
-    3. ADAPTIVE CHALLENGE: If the user is doing well, push them slightly. If they seem stuck, have a Facilitator agent offer a gentle social "bridge" or prompt.
+    1. ACTIVE LISTENING: Agents must acknowledge what the previous speaker said.
+    2. OPEN-ENDED QUESTIONS: Keep the conversation moving.
+    3. ${isObserverMode ? "OBSERVER DYNAMICS: The user is watching to learn. Agents should demonstrate healthy debate, active listening, and conflict resolution between THEMSELVES. Do NOT address the user directly unless inviting them in." : "ADAPTIVE CHALLENGE: If the user is doing well, push them slightly."}
     4. MULTI-AGENT DYNAMICS:
        - Agents should refer to each other.
        - Leo might disagree with Dr. Aris.
        - Sarah might support the user's point.
-    5. SPEECH PATTERNS: Use natural, premium-quality dialogue. Avoid "As an AI..." or robotic structures. Agents have flaws, hobbies, and distinct social pulses.
-    6. TURN-TAKING: Max 2 agents speak per turn to avoid overwhelming the user.
-    7. CONTEXT AWARENESS: Agents should react to each other, not just the user. Use phrases like "I agree with [Name]," or "Wait, [Name], I think we should also consider..."
-    8. HUMAN FLAVOR: Use "Um," "Oh," "Actually," and varying sentence lengths. Avoid sounding like a structured bot.
-    9. NO REPETITION: Do not repeat previous points. Drive the conversation forward toward the objective.
+    5. SPEECH PATTERNS: Use natural, premium-quality dialogue. Avoid "As an AI..." or robotic structures.
+    6. TURN-TAKING: Max 2 agents speak per turn.
+    7. CONTEXT AWARENESS: Agents should react to each other.
+    8. HUMAN FLAVOR: Use "Um," "Oh," "Actually," and varying sentence lengths.
+    9. NO REPETITION: Do not repeat previous points.
     10. IDENTITIES: Use the exact agentId provided in the AGENTS list.
 
     OUTPUT:
-    Return a JSON object with "responses" (max 2 agents per turn unless a group reaction is needed) and "suggestedPrompts" (3 items).
+    Return a JSON object with "responses" (max 2 agents per turn) and "suggestedPrompts" (3 items - relevant to what the user MIGHT say if they joined in).
   `;
 
     try {
