@@ -18,6 +18,14 @@ export interface UserProfile {
   socialGoal: string;
 }
 
+export interface User {
+  id: string;
+  email: string;
+  password?: string; // stored in localstorage for mock auth only
+  name: string;
+  profile?: UserProfile;
+}
+
 export interface Agent {
   id: string;
   name: string;
@@ -25,6 +33,17 @@ export interface Agent {
   personality: string;
   avatarUrl: string;
   color: string;
+  // Advanced Config (Optional)
+  communicationStyle?: string;
+  emotionalTone?: string;
+  behavioralIntent?: 'supportive' | 'neutral' | 'encouraging';
+  traits?: {
+    formality: number; // 0-100
+    empathy: number; // 0-100
+    directness: number; // 0-100
+    responseLength: number; // 0-100
+  };
+  anchors?: { input: string; response: string }[];
 }
 
 export interface Message {
@@ -38,15 +57,29 @@ export interface Message {
   emotion?: Emotion;
 }
 
+export interface ScenarioTheme {
+  primary: string;         // Main accent color (buttons, active states)
+  gradient: string;        // Gradient for backgrounds
+  textColor: string;       // Primary text color
+  userBubble: string;      // User message bubble color/style
+  agentBubble: string;     // Agent message bubble color/style
+  bgImage?: string;        // Optional background image pattern
+}
+
 export interface Scenario {
   id: string;
   title: string;
-  category: 'Academic' | 'Social' | 'Professional';
-  difficulty?: 'Easy' | 'Medium' | 'Hard'; // Added for Vibe Settings
+  category: 'Academic' | 'Social' | 'Professional' | 'Personal';
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  emotionalIntensity: 'Low' | 'Medium' | 'High';
   description: string;
   objective: string;
   stage: SimulationStage;
   icon: string;
+  image?: string;
+  // Dynamic Theming & Overrides
+  theme?: ScenarioTheme;
+  customAgents?: Agent[];
 }
 
 export interface SimulationSession {

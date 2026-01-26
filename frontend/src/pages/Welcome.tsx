@@ -25,6 +25,19 @@ const Welcome: React.FC = () => {
         <i className="fas fa-heart text-xl text-brand-secondary"></i>
       </div>
 
+      {/* Top Corner animated link */}
+      <div className="absolute top-6 right-6 md:top-10 md:right-10 z-50">
+        <button
+          onClick={() => navigate('/about')}
+          className="group flex items-center gap-2 px-5 py-2.5 bg-white/80 backdrop-blur-md border border-white/50 rounded-full shadow-lg shadow-slate-200/50 hover:bg-white hover:scale-105 transition-all duration-300"
+        >
+          <div className="w-8 h-8 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-colors">
+            <i className="fas fa-question text-sm animate-pulse-slow"></i>
+          </div>
+          <span className="text-sm font-bold text-slate-700 group-hover:text-slate-900">How it works</span>
+        </button>
+      </div>
+
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto w-full">
         {/* Main Hero Content */}
         <div className="mb-12 inline-flex relative group cursor-pointer">
@@ -43,23 +56,28 @@ const Welcome: React.FC = () => {
           The <span className="font-bold text-slate-800">psychologically safe space</span> to practice social intelligence through realistic, AI-driven simulations.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5 w-full max-w-md mx-auto mb-16 md:mb-24">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 w-full max-w-lg mx-auto mb-16 md:mb-24">
+          {/* Start Practice Button */}
           <button
-            onClick={() => navigate('/onboarding')}
+            onClick={() => navigate('/signup')}
             className="group relative w-full sm:w-auto overflow-hidden rounded-2xl bg-slate-900 px-8 py-4 text-white hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 active:scale-[0.98]"
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             <span className="relative flex items-center justify-center gap-3 text-lg font-bold">
               Start Practice
-              <i className="fas fa-arrow-right text-sm"></i>
+              <i className="fas fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
             </span>
           </button>
 
+          {/* Sign In Button - Upfront & Distinct */}
           <button
-            onClick={() => navigate('/about')}
-            className="w-full sm:w-auto px-8 py-4 bg-white text-slate-900 border border-slate-200 rounded-2xl font-bold shadow-sm hover:bg-slate-50 hover:border-slate-300 transition-all text-lg"
+            onClick={() => navigate('/login')}
+            className="group relative w-full sm:w-auto overflow-hidden rounded-2xl bg-white px-8 py-4 text-slate-900 border-2 border-slate-900 hover:bg-slate-50 transition-all shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-brand-primary/10 active:scale-[0.98]"
           >
-            How it works
+            <span className="relative flex items-center justify-center gap-3 text-lg font-black">
+              Sign In
+              <i className="fas fa-sign-in-alt text-base text-slate-900 group-hover:translate-x-1 transition-transform"></i>
+            </span>
           </button>
         </div>
 

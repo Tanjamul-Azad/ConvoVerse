@@ -1,21 +1,30 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserProfile, UserArchetype } from '../types';
 import { QUIZ_QUESTIONS } from '../utils/constants';
+import { useAuth } from '../context/AuthContext';
 
-interface OnboardingProps {
-  onComplete: (profile: UserProfile) => void;
-}
+const Onboarding: React.FC = () => {
+  const { user, updateUser } = useAuth();
+  const navigate = useNavigate();
 
-const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
+  // If user has a name, we can skip to step 2 (Question 1) or stay at 1 to confirm?
+  // Let's default to step 1 but pre-fill name. 
+  // If we want to skip: useState(user?.name ? 2 : 1)
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
   const [quizResults, setQuizResults] = useState<UserArchetype[]>([]);
   const [interests] = useState<string[]>([]);
   const [socialGoal] = useState('');
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (user?.name) {
+      setName(user.name);
+      // Optional: Auto-skip to step 2 if name is present
+      setStep(2);
+    }
+  }, [user]);
 
   const handleQuizAnswer = (type: UserArchetype) => {
     const newResults = [...quizResults, type];
@@ -28,20 +37,26 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
   };
 
   const finalizeProfile = (results: UserArchetype[]) => {
+    if (!user) return;
+
     const counts: Record<string, number> = {};
     results.forEach(r => counts[r] = (counts[r] || 0) + 1);
     const archetype = (Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b)) as UserArchetype;
 
-    const profile: UserProfile = {
-      name: name || 'Explorer',
+    const newProfile: UserProfile = {
+      name: name || user.name || 'Explorer',
       archetype,
       interests: interests.length ? interests : ['General'],
       painPoints: [],
       socialGoal: socialGoal || 'Social Ease'
     };
 
-    onComplete(profile);
-    navigate('/');
+    updateUser({
+      ...user,
+      profile: newProfile
+    });
+
+    navigate('/'); // Redirect to dashboard
   };
 
   const currentQuestionIndex = step - 2;

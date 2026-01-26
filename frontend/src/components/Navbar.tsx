@@ -4,19 +4,15 @@ import { NavLink, useLocation } from 'react-router-dom';
 const Navbar: React.FC = () => {
     const location = useLocation();
 
-    // Don't show navbar on Onboarding or Welcome if needed, currently showing on all internal pages
-    if (['/', '/onboarding'].includes(location.pathname) && !localStorage.getItem('convoverse_profile')) {
-        return null;
-    }
-
     // Hide Navbar on Simulation page for immersive mobile experience
     if (location.pathname === '/simulate') return null;
 
     const navItems = [
-        { path: '/', label: 'Practice', icon: 'fas fa-brain' },
-        { path: '/journey', label: 'Journey', icon: 'fas fa-map-marked-alt' },
-        { path: '/profile', label: 'Profile', icon: 'fas fa-user-astronaut' },
-        { path: '/about', label: 'System', icon: 'fas fa-info-circle' },
+        { path: '/', label: 'Home', icon: 'fas fa-home' },
+        { path: '/library', label: 'Library', icon: 'fas fa-book' },
+        { path: '/mentorship', label: 'Mentors', icon: 'fas fa-chalkboard-teacher' },
+        { path: '/journey', label: 'Progress', icon: 'fas fa-chart-line' },
+        { path: '/profile', label: 'Profile', icon: 'fas fa-user-circle' },
     ];
 
     return (

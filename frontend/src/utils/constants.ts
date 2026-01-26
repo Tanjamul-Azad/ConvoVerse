@@ -101,54 +101,193 @@ export const SCENARIOS: Scenario[] = [
     id: 'group-assignment',
     title: 'The Group Silence',
     category: 'Academic',
-    description: 'A team project meeting where voices overlap and the heavy silence between ideas feels impossible to break. Practice finding your moment when the conversation moves at 100mph.',
-    objective: 'Break through the "dominator" cycle by sharing a thought during a brief pause.',
+    difficulty: 'Intermediate',
+    emotionalIntensity: 'Medium',
+    description: 'A team project meeting where voices overlap. Practice finding your moment to speak.',
+    objective: 'Break through the cycle by sharing a thought during a brief pause.',
     stage: SimulationStage.OPEN_GROUP,
-    icon: 'fa-project-diagram'
+    icon: 'fa-project-diagram',
+    theme: {
+      primary: '#3b82f6', // blue-500
+      gradient: 'from-blue-50 to-indigo-50',
+      textColor: 'text-slate-800',
+      userBubble: 'bg-blue-600 text-white',
+      agentBubble: 'bg-white text-slate-700 border-blue-100',
+      bgImage: 'radial-gradient(#e0e7ff 1px, transparent 1px)'
+    }
   },
   {
     id: 'presentation-qa',
     title: 'The Spotlight Question',
     category: 'Academic',
-    description: 'You\'ve finished your slides, and now the room goes quiet, waiting for the Q&A. Navigate the sea of curious faces and the internal pressure to have perfect answers.',
-    objective: 'Confidently acknowledge and answer a question, even if your answer is "Let me look into that further."',
+    difficulty: 'Advanced',
+    emotionalIntensity: 'High',
+    description: 'The room goes quiet waiting for your answer. Navigate the internal pressure.',
+    objective: 'Confidently acknowledge a question, even if you need to defer the answer.',
     stage: SimulationStage.GUIDED_SMALL_GROUP,
-    icon: 'fa-chalkboard-teacher'
+    icon: 'fa-chalkboard-teacher',
+    theme: {
+      primary: '#8b5cf6', // violet-500
+      gradient: 'from-violet-50 to-fuchsia-100', // A bit more intense/spotlight feel
+      textColor: 'text-slate-900',
+      userBubble: 'bg-violet-600 text-white',
+      agentBubble: 'bg-white text-slate-800 border-violet-100',
+      bgImage: 'radial-gradient(#ddd6fe 1px, transparent 1px)'
+    }
   },
   {
     id: 'fresher-intro',
     title: 'The Hallway Hello',
     category: 'Social',
-    description: 'The orientation hall is echoing with laughter from strangers. The awkwardness of the first "hello" is the hurdle. Practice turning a nod into a genuine connection.',
-    objective: 'Navigate the post-hello pause by asking a follow-up about their journey to the university.',
+    difficulty: 'Beginner',
+    emotionalIntensity: 'Low',
+    description: 'The awkwardness of a first "hello". Practice turning a nod into a connection.',
+    objective: 'Ask a simple follow-up question about their journey.',
     stage: SimulationStage.ONE_ON_ONE,
-    icon: 'fa-door-open'
+    icon: 'fa-door-open',
+    theme: {
+      primary: '#10b981', // emerald-500
+      gradient: 'from-emerald-50 to-teal-50',
+      textColor: 'text-emerald-950',
+      userBubble: 'bg-emerald-600 text-white',
+      agentBubble: 'bg-white text-emerald-900 border-emerald-100',
+      bgImage: 'radial-gradient(#d1fae5 1px, transparent 1px)'
+    }
   },
   {
     id: 'hostel-adda',
     title: 'The Common Room Adda',
     category: 'Social',
-    description: 'A casual hangout session where everyone seems to know the inside jokes. Overcome the feeling of being an observer and become a participant in the local dorm chatter.',
-    objective: 'Share an opinion on a pop-culture topic without overthinking if it\'s "cool enough."',
+    difficulty: 'Intermediate',
+    emotionalIntensity: 'Medium',
+    description: 'A casual breakout session. Overcome the feeling of being just an observer.',
+    objective: 'Share an opinion on a casual topic without overthinking.',
     stage: SimulationStage.OPEN_GROUP,
-    icon: 'fa-couch'
+    icon: 'fa-couch',
+    theme: {
+      primary: '#f59e0b', // amber-500
+      gradient: 'from-amber-50 to-orange-50',
+      textColor: 'text-amber-950',
+      userBubble: 'bg-amber-500 text-white',
+      agentBubble: 'bg-white text-amber-900 border-amber-100',
+    }
   },
   {
     id: 'job-interview',
-    title: 'The Staring Panel',
+    title: 'The Panel Interview',
     category: 'Professional',
-    description: 'Three interviewers, one desk, and high-stakes questions. The room feels small, and the pressure is high. Practice keeping your voice steady under formal scrutiny.',
-    objective: 'Answer a difficult question without the internal critic taking over.',
+    difficulty: 'Advanced',
+    emotionalIntensity: 'High',
+    description: 'High-stakes questions in a formal setting. Keep your voice steady.',
+    objective: 'Answer a principled question without the internal critic taking over.',
     stage: SimulationStage.GUIDED_SMALL_GROUP,
-    icon: 'fa-briefcase'
+    icon: 'fa-briefcase',
+    theme: {
+      primary: '#0f172a', // slate-900
+      gradient: 'from-slate-100 to-slate-200', // Formal, cold
+      textColor: 'text-slate-900',
+      userBubble: 'bg-slate-900 text-white',
+      agentBubble: 'bg-white text-slate-800 border-slate-300 shadow-sm',
+    }
   },
   {
     id: 'team-conflict',
     title: 'The Polite "No"',
     category: 'Professional',
-    description: 'Someone suggests a plan that clearly won\'t work. The lump in your throat tells you to stay quiet, but the project needs your honesty. Practice gentle disagreement.',
-    objective: 'State "I see it differently because..." and offer an alternative.',
+    difficulty: 'Intermediate',
+    emotionalIntensity: 'Medium',
+    description: 'Someone suggests a flawed plan. Practice gentle, constructive disagreement.',
+    objective: 'Offer an alternative perspective using "I see it differently because..."',
     stage: SimulationStage.OPEN_GROUP,
-    icon: 'fa-balance-scale'
+    icon: 'fa-balance-scale',
+    image: 'https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=800&auto=format&fit=crop',
+    theme: {
+      primary: '#ef4444', // red-500 (conflict/tension)
+      gradient: 'from-red-50 to-orange-50',
+      textColor: 'text-red-950',
+      userBubble: 'bg-red-500 text-white',
+      agentBubble: 'bg-white text-red-900 border-red-100',
+    }
+  },
+  {
+    id: 'salary-negotiation',
+    title: 'Asking for a Raise',
+    category: 'Professional',
+    difficulty: 'Advanced',
+    emotionalIntensity: 'High',
+    description: 'You have gathered your achievements. Now, the sit-down with your manager.',
+    objective: 'State your desired number clearly without apologizing.',
+    stage: SimulationStage.ONE_ON_ONE,
+    icon: 'fa-money-bill-wave',
+    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop',
+    theme: {
+      primary: '#15803d', // green-700 (money)
+      gradient: 'from-green-50 to-emerald-100',
+      textColor: 'text-green-950',
+      userBubble: 'bg-green-700 text-white',
+      agentBubble: 'bg-white text-green-900 border-green-200',
+    },
+    customAgents: [
+      {
+        id: 'manager_dave',
+        name: 'Mr. Dave',
+        role: 'peer', // technically a superior but uses peer slot for 1-1
+        personality: 'Busy, results-oriented, slightly impatient but fair. He appreciates brevity and data.',
+        avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Dave&backgroundColor=e5e7eb&clothing=blazerAndShirt',
+        color: 'bg-slate-600',
+        category: 'Professional' // Optional custom field if needed, but not in type yet
+      } as Agent
+    ]
+  },
+  {
+    id: 'return-item',
+    title: 'Returning a Defective Item',
+    category: 'Social',
+    difficulty: 'Beginner',
+    emotionalIntensity: 'Low',
+    description: 'The store clerk says "final sale", but the item is broken. Stand your ground.',
+    objective: 'Politely but firmly request a refund or exchange.',
+    stage: SimulationStage.ONE_ON_ONE,
+    icon: 'fa-shopping-bag',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800&auto=format&fit=crop'
+  },
+  {
+    id: 'party-networking',
+    title: 'Networking at a Party',
+    category: 'Social',
+    difficulty: 'Intermediate',
+    emotionalIntensity: 'Medium',
+    description: 'You don\'t know anyone. A group is laughing near the snacks.',
+    objective: 'Join the circle and introduce yourself during a lull.',
+    stage: SimulationStage.OPEN_GROUP,
+    icon: 'fa-glass-cheers',
+    image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop',
+    theme: {
+      primary: '#d946ef', // fuchsia-500
+      gradient: 'from-fuchsia-50 to-pink-50',
+      textColor: 'text-fuchsia-950',
+      userBubble: 'bg-fuchsia-600 text-white',
+      agentBubble: 'bg-white text-fuchsia-900 border-fuchsia-100',
+      bgImage: 'radial-gradient(#f0abfc 2px, transparent 2px)'
+    }
+  },
+  {
+    id: 'comforting-friend',
+    title: 'Comforting a Grieving Friend',
+    category: 'Personal',
+    difficulty: 'Advanced',
+    emotionalIntensity: 'High',
+    description: 'A friend has lost something important. They are crying.',
+    objective: 'Offer presence and validation without trying to "fix" it.',
+    stage: SimulationStage.ONE_ON_ONE,
+    icon: 'fa-heart-broken',
+    image: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?q=80&w=800&auto=format&fit=crop',
+    theme: {
+      primary: '#64748b', // slate-500 (somber)
+      gradient: 'from-slate-50 to-gray-100',
+      textColor: 'text-slate-700',
+      userBubble: 'bg-slate-600 text-white',
+      agentBubble: 'bg-white text-slate-600 border-slate-200',
+    }
   }
 ];

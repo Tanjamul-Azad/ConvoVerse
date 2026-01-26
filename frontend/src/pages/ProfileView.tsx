@@ -7,10 +7,11 @@ import { UserProfile } from '../types';
 interface ProfileViewProps {
   profile: UserProfile;
   onUpdate: (profile: UserProfile) => void;
+  onLogout: () => void;
   onReset: () => void;
 }
 
-const ProfileView: React.FC<ProfileViewProps> = ({ profile, onUpdate, onReset }) => {
+const ProfileView: React.FC<ProfileViewProps> = ({ profile, onUpdate, onLogout, onReset }) => {
   const [name, setName] = useState(profile.name);
   const [goal, setGoal] = useState(profile.socialGoal);
   const navigate = useNavigate();
@@ -20,13 +21,22 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile, onUpdate, onReset })
     navigate('/');
   };
 
+  const handleResetConfirm = () => {
+    if (window.confirm("Are you sure? This will erase all your custom scenarios and history, but keep your account.")) {
+      onReset();
+      alert("Progress reset successfully.");
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50/50 flex flex-col items-center py-20 px-6 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 z-0 opacity-[0.3]" style={{
-        backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)',
-        backgroundSize: '32px 32px'
-      }}></div>
+    <div className="min-h-screen bg-[#f8fafc] flex flex-col items-center py-20 px-6 relative overflow-hidden">
+      {/* Ambient Background Lights */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-fuchsia-500/5 rounded-full blur-[100px] animate-float"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-indigo-500/5 rounded-full blur-[100px] animate-float-delayed"></div>
+      </div>
+
+      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
 
       <div className="max-w-xl w-full relative z-10">
         <div className="flex items-center justify-between mb-12 animate-in fade-in slide-in-from-left-4 duration-500">
@@ -37,13 +47,27 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile, onUpdate, onReset })
             <h1 className="text-2xl font-black text-slate-900">User Configuration</h1>
           </div>
 
-          <button
-            onClick={onReset}
-            className="text-xs font-bold text-red-400 hover:text-red-500 uppercase tracking-widest transition-colors flex items-center gap-2"
-          >
-            <i className="fas fa-power-off"></i>
-            Reset System
-          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={handleResetConfirm}
+              className="text-xs font-bold text-slate-400 hover:text-red-500 uppercase tracking-widest transition-colors flex items-center gap-2"
+              title="Clear all progress but keep account"
+            >
+              <i className="fas fa-trash-alt"></i>
+              Reset Data
+            </button>
+
+            <button
+              onClick={() => {
+                onLogout();
+                navigate('/');
+              }}
+              className="text-xs font-bold text-slate-400 hover:text-slate-900 uppercase tracking-widest transition-colors flex items-center gap-2"
+            >
+              <i className="fas fa-sign-out-alt"></i>
+              Logout
+            </button>
+          </div>
         </div>
 
         <div className="glass-card p-10 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700 bg-white/80 backdrop-blur-xl border border-white/60 shadow-2xl shadow-slate-200/50">

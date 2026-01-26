@@ -72,6 +72,17 @@ const CustomCreator: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+                    {/* Advanced Tools Link */}
+                    <div className="lg:col-span-2 flex justify-end -mt-8 mb-4">
+                        <button
+                            onClick={() => navigate('/agent-editor')}
+                            className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-brand-primary transition-all shadow-lg shadow-slate-900/10"
+                        >
+                            <i className="fas fa-robot"></i>
+                            Open Agent Editor
+                        </button>
+                    </div>
                     {/* Scenario Configuration */}
                     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
                         <section className="glass-card p-8 space-y-6">
