@@ -60,8 +60,9 @@ export const generateAgentResponses = async (
     const agentsContext = activeAgents.map(a => `${a.name} (${a.role}) [ID: ${a.id}]: ${a.personality}`).join("\n");
     const conversationHistory = messages.map(m => `${m.senderName}: ${m.text}`).join("\n");
 
+    const newLocal = scenario?.difficulty === 'Advanced' ? 'conflict' : (scenario?.title.toLowerCase().includes('interview') ? 'professional' : 'casual');
     // Context Intelligence: Determine Vibe
-    const scenarioType = scenario?.difficulty === 'Hard' ? 'conflict' : (scenario?.title.toLowerCase().includes('interview') ? 'professional' : 'casual');
+    const scenarioType = newLocal;
     const vibe = SCENARIO_VIBES[scenarioType] || SCENARIO_VIBES['casual'];
 
     const systemPrompt = `

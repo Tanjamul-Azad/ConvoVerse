@@ -44,7 +44,9 @@ const CustomCreator: React.FC = () => {
             return;
         }
 
-        const newScenario: Scenario & { customAgents: Agent[] } = {
+
+        const existing = JSON.parse(localStorage.getItem('custom_scenarios') || '[]');
+        localStorage.setItem('custom_scenarios', JSON.stringify([...existing, {
             id: `custom-${Date.now()}`,
             title,
             description,
@@ -53,10 +55,7 @@ const CustomCreator: React.FC = () => {
             stage,
             icon: category === 'Academic' ? 'fa-graduation-cap' : category === 'Professional' ? 'fa-briefcase' : 'fa-heart',
             customAgents // Embedding agents directly for custom scenarios
-        };
-
-        const existing = JSON.parse(localStorage.getItem('custom_scenarios') || '[]');
-        localStorage.setItem('custom_scenarios', JSON.stringify([...existing, newScenario]));
+        }]));
 
         navigate('/');
     };

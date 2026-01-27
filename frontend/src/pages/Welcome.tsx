@@ -59,7 +59,7 @@ const Welcome: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 w-full max-w-lg mx-auto mb-16 md:mb-24">
           {/* Start Practice Button */}
           <button
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/login')}
             className="group relative w-full sm:w-auto overflow-hidden rounded-2xl bg-slate-900 px-8 py-4 text-white hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 active:scale-[0.98]"
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
@@ -69,16 +69,7 @@ const Welcome: React.FC = () => {
             </span>
           </button>
 
-          {/* Sign In Button - Upfront & Distinct */}
-          <button
-            onClick={() => navigate('/login')}
-            className="group relative w-full sm:w-auto overflow-hidden rounded-2xl bg-white px-8 py-4 text-slate-900 border-2 border-slate-900 hover:bg-slate-50 transition-all shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-brand-primary/10 active:scale-[0.98]"
-          >
-            <span className="relative flex items-center justify-center gap-3 text-lg font-black">
-              Sign In
-              <i className="fas fa-sign-in-alt text-base text-slate-900 group-hover:translate-x-1 transition-transform"></i>
-            </span>
-          </button>
+
         </div>
 
         {/* Feature Cards - Figma Aesthetic */}
@@ -117,6 +108,39 @@ const Welcome: React.FC = () => {
               <p className="text-slate-500 leading-relaxed text-sm font-medium relative z-10">{item.desc}</p>
             </div>
           ))}
+        </div>
+
+        {/* Optional Personality Test Section */}
+        <div className="mt-12 md:mt-16">
+          <a
+            href="https://www.16personalities.com/free-personality-test"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative block bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 p-6 md:p-8 rounded-[2rem] shadow-lg shadow-indigo-100/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-200/50 transition-all duration-300 overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-purple-200/30 to-indigo-200/30 rounded-bl-[100px] -mr-10 -mt-10 opacity-60 group-hover:scale-110 transition-transform"></div>
+            
+            <div className="flex flex-col md:flex-row items-center gap-6 relative z-10">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shadow-purple-500/30 group-hover:rotate-6 group-hover:scale-105 transition-transform">
+                <i className="fas fa-brain"></i>
+              </div>
+              
+              <div className="flex-1 text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+                  <h4 className="text-xl font-bold text-slate-800">Discover Your Personality Type</h4>
+                  <span className="px-2 py-0.5 bg-purple-100 text-purple-600 text-[10px] font-bold uppercase tracking-wider rounded-full">Optional</span>
+                </div>
+                <p className="text-slate-500 text-sm font-medium leading-relaxed">
+                  Curious about yourself? Take the free 16Personalities test to understand your MBTI type and how you interact with the world.
+                </p>
+              </div>
+              
+              <div className="flex items-center gap-2 text-indigo-600 font-bold text-sm group-hover:gap-3 transition-all">
+                <span>Take Free Test</span>
+                <i className="fas fa-external-link-alt text-xs"></i>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
 

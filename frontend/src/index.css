@@ -165,21 +165,25 @@
 
 /* --- Accessibility Overrides --- */
 body.high-contrast {
-  @apply bg-white text-black !important;
+  @apply !bg-white !text-black;
   background-image: none !important;
 }
 
 body.high-contrast .glass-card,
 body.high-contrast .glass-panel {
-  @apply bg-white border-2 border-black shadow-none backdrop-blur-0 !important;
+  @apply !bg-white !border-2 !border-black !shadow-none !backdrop-blur-none;
 }
 
 body.high-contrast .btn-primary {
-  @apply bg-black text-white shadow-none border-2 border-transparent hover:bg-slate-800 !important;
+  @apply !bg-black !text-white !shadow-none !border-2 !border-transparent;
+}
+
+body.high-contrast .btn-primary:hover {
+  @apply !bg-slate-800;
 }
 
 body.high-contrast .text-gradient {
-  @apply text-black bg-none !important;
+  @apply !text-black !bg-none;
 }
 
 body.calm-palette {
